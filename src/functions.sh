@@ -11,7 +11,7 @@ function split_roi () {
 	cd "${roi_dir}"
 	out_niigz=$( basename "${in_niigz}" .nii.gz )_"${val}".nii.gz
 	fslmaths "${in_niigz}" -thr "${val}" -uthr "${val}" -bin "${out_niigz}"
-	cd -
+	cd $OLDPWD
 }
 
 # Join multiple ROI masks into a single one
@@ -28,5 +28,5 @@ function join_rois () {
 		addstr="${addstr} -add ${fstr}"
 	done
 	fslmaths "${in_niigz}" -thr 0 -uthr 0 ${addstr} -bin "${out_niigz}"
-	cd -
+	cd $OLDPWD
 }
