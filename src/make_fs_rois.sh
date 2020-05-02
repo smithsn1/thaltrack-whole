@@ -2,17 +2,19 @@
 #
 ### EXTRACT CORTICAL REGIONS FROM FREESURFER DKT ATLAS
 ### MAKE COMBINED FS_MASKS
-### MAKE AVOID MASKS
-
-source functions.sh
 
 #roi_dir=./TRACTOGRAPHY_WHOLE_THALAMUS/FS_2_FSL
 roi_dir=testdir
-roi_niigz=aparc.DKTatlas+aseg
 
+
+# Set up
+source functions.sh
+roi_niigz=aparc.DKTatlas+aseg
 cd "${roi_dir}"
 
-# Get single-ROI masks for the needed ROIs
+
+
+# Create single-ROI masks for the needed ROIs, labeled by number
 for v in \
 1003 1017 1024 \
 2003 2017 2024 \
@@ -46,8 +48,7 @@ done
 
 
 
-# Re-join into the needed single-ROI masks
-
+# Re-join into the needed single-ROI masks, labeled by name
 join_rois "${roi_niigz}"   FS_MOTOR_L     "1003 1017 1024"
 join_rois "${roi_niigz}"   FS_MOTOR_R     "2003 2017 2024"
 
@@ -86,6 +87,7 @@ join_rois "${roi_niigz}"   FS_AUD_R       "2030 2034"
 
 join_rois "${roi_niigz}"   FS_ITEMP_L     "1006 1007 1009 1015 1016"
 join_rois "${roi_niigz}"   FS_ITEMP_R     "2006 2007 2009 2015 2016"
+
 
 
 # Create 6- and 10-ROI single-image sets
