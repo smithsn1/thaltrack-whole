@@ -2,6 +2,7 @@
 #
 # Support functions
 
+
 # Split a single ROI mask from a multi-ROI image
 function split_roi () {
 	in_niigz="${1}"
@@ -10,6 +11,7 @@ function split_roi () {
 	out_niigz=$( basename "${in_niigz}" .nii.gz )_"${val}".nii.gz
 	fslmaths "${in_niigz}" -thr "${val}" -uthr "${val}" -bin "${out_niigz}"
 }
+
 
 # Join multiple ROI masks into a single one
 function join_rois () {
@@ -24,3 +26,34 @@ function join_rois () {
 	done
 	fslmaths "${in_niigz}" -thr 0 -uthr 0 ${addstr} -bin "${out_niigz}"
 }
+
+
+# Probtrack
+function track () {
+	bedpost_dir="${1}"
+	mask_dir="${2}"
+	out_dir="${3}"
+	roi_from="${4}"
+	roi_to="${5}"
+
+	probtrackx2 \
+		-s "${bedpost_dir}"/merged \
+		-m "${bedpost_dir}"/nodif_brain_mask \
+		-x "${mask_dir}"/"${roi_from}"_2_b0_mean_brain_bin.nii.gz \
+ 	   --targetmasks="${mask_dir}"/"${roi_to}"_2_b0_mean_brain_bin.nii.gz \
+		--stop="${mask_dir}"/"${roi_to}"_2_b0_mean_brain_bin.nii.gz \
+		--avoid="${mask_dir}"/"${roi_to}"_AVOID.nii.gz \
+ 	   -l \
+ 	   --onewaycondition \
+		--verbose=1 \
+		--forcedir \
+		--modeuler \
+		--pd \
+		--dir="${out_dir}"/"${roi_from}"_2_"${roi_to}" \
+		--os2t \
+		--s2tastext \
+		--opd \
+		--ompl
+
+}
+
