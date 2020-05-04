@@ -46,16 +46,6 @@ function track () {
 		--avoid="${mask_dir}"/"${roi_to}"_AVOID.nii.gz \
 		--dir="${out_dir}"/"${roi_from}"_2_"${roi_to}" \
 		${trackopts}
- 	   -l \
- 	   --onewaycondition \
-		--verbose=1 \
-		--forcedir \
-		--modeuler \
-		--pd \
-		--os2t \
-		--s2tastext \
-		--opd \
-		--ompl
 
 }
 
