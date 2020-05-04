@@ -30,11 +30,12 @@ function join_rois () {
 
 # Probtrack
 function track () {
-	bedpost_dir="${1}"
-	mask_dir="${2}"
-	out_dir="${3}"
-	roi_from="${4}"
-	roi_to="${5}"
+	trackopts=$"{1}"
+	bedpost_dir="${2}"
+	mask_dir="${3}"
+	out_dir="${4}"
+	roi_from="${5}"
+	roi_to="${6}"
 
 	probtrackx2 \
 		-s "${bedpost_dir}"/merged \
@@ -43,13 +44,14 @@ function track () {
  	   --targetmasks="${mask_dir}"/"${roi_to}"_2_b0_mean_brain_bin.nii.gz \
 		--stop="${mask_dir}"/"${roi_to}"_2_b0_mean_brain_bin.nii.gz \
 		--avoid="${mask_dir}"/"${roi_to}"_AVOID.nii.gz \
+		--dir="${out_dir}"/"${roi_from}"_2_"${roi_to}" \
+		${trackopts}
  	   -l \
  	   --onewaycondition \
 		--verbose=1 \
 		--forcedir \
 		--modeuler \
 		--pd \
-		--dir="${out_dir}"/"${roi_from}"_2_"${roi_to}" \
 		--os2t \
 		--s2tastext \
 		--opd \

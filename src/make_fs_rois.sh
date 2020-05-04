@@ -2,6 +2,7 @@
 #
 ### EXTRACT CORTICAL REGIONS FROM FREESURFER DKT ATLAS
 ### MAKE COMBINED FS_MASKS
+### MAKE AVOID MASKS
 
 #roi_dir=./TRACTOGRAPHY_WHOLE_THALAMUS/FS_2_FSL
 roi_dir=testdir
@@ -113,5 +114,17 @@ fslmaths FS_MOTOR_L   -add FS_MOTOR_R    -mul 8   -add tmp   tmp
 fslmaths FS_SOMATO_L  -add FS_SOMATO_R   -mul 9   -add tmp   tmp
 fslmaths FS_OCC_L     -add FS_OCC_R      -mul 10  -add tmp   tmp
 mv tmp.nii.gz FS_10MASKS.nii.gz
+
+
+
+
+# Whole brain gray matter mask
+fslmaths FS_PFC_R -add FS_MOTOR_R -add FS_SOMATO_R -add FS_POSTPAR_R -add FS_OCC_R -add FS_TEMP_R \
+	-add FS_PFC_L -add FS_MOTOR_L -add FS_SOMATO_L -add FS_POSTPAR_L -add FS_OCC_L -add FS_TEMP_L \
+	tmp_gm
+
+# Include left and right white matter to make avoid masks
+fslmaths tmp_gm -add FS_WM_R  FS_RH_LHCORTEX_AVOID
+fslmaths tmp_gm -add FS_WM_L  FS_LH_RHCORTEX_AVOID
 
 
