@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+### EXTRACT L/R WM FROM FREESURFER DKT ATLAS
 ### EXTRACT CORTICAL REGIONS FROM FREESURFER DKT ATLAS
 ### MAKE COMBINED FS_MASKS
 ### MAKE AVOID MASKS
@@ -17,6 +18,8 @@ cd "${roi_dir}"
 
 # Create single-ROI masks for the needed ROIs, labeled by number
 for v in \
+	2 \
+	41 \
 	16 \
 	7 8 \
 	46 47 \
@@ -57,6 +60,9 @@ done
 
 
 # Re-join into the needed single-ROI masks, labeled by name
+join_rois "${roi_niigz}"   	FS_WM_L               "2"
+join_rois "${roi_niigz}"   	FS_WM_R               "41"
+
 join_rois "${roi_niigz}"   	FS_BRAINSTEM          "16"
 
 join_rois "${roi_niigz}"   	FS_CEREBELLUM_L       "7 8"
