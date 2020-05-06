@@ -115,7 +115,7 @@ join_rois "${roi_niigz}"   FS_ITEMP_R     "2006 2007 2009 2015 2016"
 
 
 
-# Create 6- and 10-ROI single-image sets
+# Create 6- and 10-ROI single-image sets and corresponding label lists
 
 # 6-ROI
 fslmaths FS_PFC_L     -add FS_PFC_R       -mul 1             tmp
@@ -125,6 +125,15 @@ fslmaths FS_POSTPAR_L -add FS_POSTPAR_R   -mul 4  -add tmp   tmp
 fslmaths FS_OCC_L      -add FS_OCC_R      -mul 5  -add tmp   tmp
 fslmaths FS_TEMP_L    -add FS_TEMP_R      -mul 6  -add tmp   tmp
 mv tmp.nii.gz FS_6MASKS.nii.gz
+
+cat > FS_6MASKS-labels.csv <<HERE
+1,FS_PFC
+2,FS_MOTOR
+3,FS_SOMATO
+4,FS_POSTPAR
+5,FS_OCC
+6,FS_TEMP
+HERE
 
 # 10-ROI
 fslmaths FS_MOFC_L    -add FS_MOFC_R     -mul 1              tmp
@@ -138,6 +147,19 @@ fslmaths FS_MOTOR_L   -add FS_MOTOR_R    -mul 8   -add tmp   tmp
 fslmaths FS_SOMATO_L  -add FS_SOMATO_R   -mul 9   -add tmp   tmp
 fslmaths FS_OCC_L     -add FS_OCC_R      -mul 10  -add tmp   tmp
 mv tmp.nii.gz FS_10MASKS.nii.gz
+
+cat > FS_10MASKS-labels.csv <<HERE
+1,FS_MOFC
+2,FS_LPFC
+3,FS_ACC
+4,FS_PPC
+5,FS_PARDMN
+6,FS_AUD
+7,FS_ITEMP
+8,FS_MOTOR
+9,FS_SOMATO
+10,FS_OCC
+HERE
 
 
 # Subcortical mask
