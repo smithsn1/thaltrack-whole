@@ -16,7 +16,7 @@ cd "${roi_dir}"
 
 
 
-# Create single-ROI masks for the needed ROIs, labeled by number
+# Create single-ROI masks for the needed ROIs, files labeled by number
 for v in \
 	2 \
 	41 \
@@ -59,7 +59,7 @@ done
 
 
 
-# Re-join into the needed single-ROI masks, labeled by name
+# Re-join into the needed single-ROI masks, files labeled by ROI name
 join_rois "${roi_niigz}"   	FS_WM_L               "2"
 join_rois "${roi_niigz}"   	FS_WM_R               "41"
 
