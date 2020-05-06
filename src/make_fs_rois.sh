@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+### EXTRACT L/R THALAMUS FROM WHOLE THALAMUS MASK
 ### EXTRACT L/R WM FROM FREESURFER DKT ATLAS
 ### EXTRACT CORTICAL REGIONS FROM FREESURFER DKT ATLAS
 ### MAKE COMBINED FS_MASKS
@@ -11,9 +12,17 @@ roi_dir=testdir
 
 # Set up
 source functions.sh
-roi_niigz=aparc.DKTatlas+aseg
 cd "${roi_dir}"
 
+
+# Create single-ROI masks for FS thalamus
+fslmaths ThalamicNuclei.v10.T1.FSvoxelSpace -thr 8100 -uthr 8199 FS_THALAMUS_L
+fslmaths ThalamicNuclei.v10.T1.FSvoxelSpace -thr 8200 -uthr 8299 FS_THALAMUS_R
+
+
+
+# ROI source for remaining FS ROIs
+roi_niigz=aparc.DKTatlas+aseg
 
 
 # Create single-ROI masks for the needed ROIs, files labeled by number
