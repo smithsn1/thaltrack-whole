@@ -17,6 +17,13 @@ cd "${roi_dir}"
 
 # Create single-ROI masks for the needed ROIs, labeled by number
 for v in \
+	16 \
+	7 8 \
+	46 47 \
+	11 12 13 \
+	50 51 52 \
+	17 18 \
+	53 54 \
 	1003 1017 1024 \
 	2003 2017 2024 \
 	1005 1011 1013 1021 \
@@ -50,6 +57,17 @@ done
 
 
 # Re-join into the needed single-ROI masks, labeled by name
+join_rois "${roi_niigz}"   	FS_BRAINSTEM          "16"
+
+join_rois "${roi_niigz}"   	FS_CEREBELLUM_L       "7 8"
+join_rois "${roi_niigz}"   	FS_CEREBELLUM_R       "46 47"
+
+join_rois "${roi_niigz}"   	FS_CAUD_PUT_PALL_L    "11 12 13"
+join_rois "${roi_niigz}"   	FS_CAUD_PUT_PALL_R    "50 51 52"
+
+join_rois "${roi_niigz}"   	FS_AMYG_HIPP_L        "17 18"
+join_rois "${roi_niigz}"   	FS_AMYG_HIPP_R        "53 54"
+	
 join_rois "${roi_niigz}"   FS_MOTOR_L     "1003 1017 1024"
 join_rois "${roi_niigz}"   FS_MOTOR_R     "2003 2017 2024"
 
@@ -116,6 +134,14 @@ fslmaths FS_OCC_L     -add FS_OCC_R      -mul 10  -add tmp   tmp
 mv tmp.nii.gz FS_10MASKS.nii.gz
 
 
+# Subcortical mask
+fslmaths \
+	FS_BRAINSTEM \
+	-add FS_CEREBELLUM_L    -add FS_CEREBELLUM_R \
+	-add FS_CAUD_PUT_PALL_L -add FS_CAUD_PUT_PALL_R \
+	-add FS_AMYG_HIPP_L     -add FS_AMYG_HIPP_R \
+	-bin \
+	FS_CEREBELLAR_SUBCORTICAL
 
 
 # Whole brain gray matter mask
@@ -123,8 +149,8 @@ fslmaths FS_PFC_R -add FS_MOTOR_R -add FS_SOMATO_R -add FS_POSTPAR_R -add FS_OCC
 	-add FS_PFC_L -add FS_MOTOR_L -add FS_SOMATO_L -add FS_POSTPAR_L -add FS_OCC_L -add FS_TEMP_L \
 	tmp_gm
 
-# Include left and right white matter to make avoid masks
-fslmaths tmp_gm -add FS_WM_R  FS_RH_LHCORTEX_AVOID
-fslmaths tmp_gm -add FS_WM_L  FS_LH_RHCORTEX_AVOID
+# Include white matter and subcortical to make avoid masks
+fslmaths tmp_gm -add FS_WM_R -add FS_CEREBELLAR_SUBCORTICAL -bin FS_RH_LHCORTEX_AVOID
+fslmaths tmp_gm -add FS_WM_L -add FS_CEREBELLAR_SUBCORTICAL -bin FS_LH_RHCORTEX_AVOID
 
 
