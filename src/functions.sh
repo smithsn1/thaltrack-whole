@@ -30,7 +30,7 @@ function join_rois () {
 
 # Probtrack
 function track () {
-	trackopts=$"{1}"
+	trackopts="${1}"
 	bedpost_dir="${2}"
 	mask_dir="${3}"
 	out_dir="${4}"
