@@ -36,7 +36,41 @@ echo "fs_nii_thalamus_niigz:   ${fs_nii_thalamus_niigz}"
 echo "out_dir:                 ${out_dir}"
 
 
+# Dirs in the container we need to access
+export yeo_dir=src/external/yeo_networks
 
-### EXTRACT CORTICAL REGIONS FROM FREESURFER DKT ATLAS
+
+# Output dirs
+# ROIS_FS, ROIS_DWI for region masks in the two different geometries
+# OUTPUT_FS6, OUTPUT_FS10, OUTPUT_YEO7, OUTPUT_YEO17 for the different ROI tracksets
+export rois_fs_dir=${out_dir}/ROIS_FS ; mkdir "${rois_fs_dir}"
+export rois_dwi_dir=${out_dir}/ROIS_DWI ; mkdir "${rois_dwi_dir}"
+mkdir "${out_dir}"/OUTPUT_FS6
+mkdir "${out_dir}"/OUTPUT_FS10
+mkdir "${out_dir}"/OUTPUT_YEO7
+mkdir "${out_dir}"/OUTPUT_YEO17
+
+
+### Coreg FS-space T1 to DWI-space b=0
+
+
+### Extract region masks from FS-space DKT atlas
 make_fs_rois.sh
+
+
+### Resample FS-space FS region masks to DWI space. Be sure to apply the coreg
+
+
+### Warp Yeo ROI images to FS space
+
+
+### Extract region masks from FS-space Yeo atlases
+
+
+### Resample FS-space Yeo region masks to DWI space. Be sure to apply the coreg
+
+
+### Probtracks for FS6 set
+probtracks_FS6.sh
+
 
