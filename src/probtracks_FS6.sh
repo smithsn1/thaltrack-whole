@@ -10,7 +10,7 @@ function track () {
 	trackopts="${1}"
 	bedpost_dir="${2}"
 	roi_dir="${3}"
-	out_dir="${4}"
+	track_dir="${4}"
 	roi_from="${5}"
 	roi_to="${6}"
 
@@ -21,7 +21,7 @@ function track () {
 		--targetmasks="${roi_dir}"/"${roi_to}" \
 		--stop="${roi_dir}"/"${roi_to}" \
 		--avoid="${roi_dir}"/"${roi_to}"_AVOID \
-		--dir="${out_dir}"/"${roi_from}"_to_"${roi_to}" \
+		--dir="${track_dir}"/"${roi_from}"_to_"${roi_to}" \
 		${trackopts}
 
 }
