@@ -2,10 +2,33 @@
 #
 ### TRACTOGRAPHY - FREESURFER THALAMUS TO FREESURFER CORTICAL MASKS
 
+# Probtrack function for single ROI
+function track () {
+	trackopts="${1}"
+	bedpost_dir="${2}"
+	roi_dir="${3}"
+	out_dir="${4}"
+	roi_from="${5}"
+	roi_to="${6}"
+
+	probtrackx2 \
+		-s "${bedpost_dir}"/merged \
+		-m "${bedpost_dir}"/nodif_brain_mask \
+		-x "${roi_dir}"/"${roi_from}" \
+		--targetmasks="${roi_dir}"/"${roi_to}" \
+		--stop="${roi_dir}"/"${roi_to}" \
+		--avoid="${roi_dir}"/"${roi_to}"_AVOID \
+		--dir="${out_dir}"/"${roi_from}"_to_"${roi_to}" \
+		${trackopts}
+
+}
+
+
+# Options for all tracking
 trackopts="-l --onewaycondition --verbose=1 --forcedir --modeuler --pd --os2t --s2tastext --opd --ompl"
 
 
-# Thalamus to cortical regions
+# Thalamus to individual cortical regions
 trackcmd="track ${trackopts} ${bedpost_dir} ${rois_dwi_dir} ${out_dir}/OUTPUT_FS6"
 for region in \
   FS_PFC \
@@ -20,47 +43,29 @@ do
 done
 
 
+# Set up for multiple targets
+cd "${out_dir}"/OUTPUTS_FS6
+cp "${targets_dir}"/TARGETS_FS6_?.txt .
 
 # L thalamus to L multiple targets
-
-cat > "${out_dir}"/OUTPUTS_FS6/TARGETS_L.txt <<HERE
-"${rois_dwi_dir}"/FS_PFC_L
-"${rois_dwi_dir}"/FS_MOTOR_L
-"${rois_dwi_dir}"/FS_SOMATO_L
-"${rois_dwi_dir}"/FS_POSTPAR_L
-"${rois_dwi_dir}"/FS_OCC_L
-"${rois_dwi_dir}"/FS_TEMP_L
-HERE
-
 probtrackx2 \
 	-s "${bedpost_dir}"/merged \
 	-m "${bedpost_dir}"/nodif_brain_mask \
 	-x "${rois_dwi_dir}"/FS_THALAMUS_L \
-	--targetmasks="${out_dir}"/OUTPUTS_FS6/TARGETS_L.txt \
+	--targetmasks=TARGETS_FS6_L.txt \
 	--stop="${rois_dwi_dir}"/FS_LHCORTEX_STOP \
 	--avoid="${rois_dwi_dir}"/FS_RH_AVOID \
-	--dir="${out_dir}"/OUTPUT_FS6/FS_THALAMUS_L_to_TARGETS_L \
+	--dir=FS_THALAMUS_L_to_TARGETS_L \
 	${trackopts}
 
-
 # R thalamus to R multiple targets
-
-cat > "${out_dir}"/OUTPUTS_FS6/TARGETS_R.txt <<HERE
-"${rois_dwi_dir}"/FS_PFC_R
-"${rois_dwi_dir}"/FS_MOTOR_R
-"${rois_dwi_dir}"/FS_SOMATO_R
-"${rois_dwi_dir}"/FS_POSTPAR_R
-"${rois_dwi_dir}"/FS_OCC_R
-"${rois_dwi_dir}"/FS_TEMP_R
-HERE
-
 probtrackx2 \
 	-s "${bedpost_dir}"/merged \
 	-m "${bedpost_dir}"/nodif_brain_mask \
 	-x "${rois_dwi_dir}"/FS_THALAMUS_R \
-	--targetmasks="${out_dir}"/OUTPUTS_FS6/TARGETS_R.txt \
+	--targetmasks=TARGETS_FS6_R.txt \
 	--stop="${rois_dwi_dir}"/FS_RHCORTEX_STOP \
 	--avoid="${rois_dwi_dir}"/FS_LH_AVOID \
-	--dir="${out_dir}"/OUTPUT_FS6/FS_THALAMUS_R_to_TARGETS_R \
+	--dir=FS_THALAMUS_R_to_TARGETS_R \
 	${trackopts}
 

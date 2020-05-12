@@ -37,6 +37,7 @@ echo "out_dir:                 ${out_dir}"
 
 
 # Dirs in the container we need to access
+export targets_dir=src/targets
 export yeo_dir=src/external/yeo_networks
 
 
@@ -52,7 +53,7 @@ mkdir "${out_dir}"/OUTPUT_YEO17
 
 
 ### Coreg FS-space T1 to DWI-space b=0
-
+coreg_t1_to_dwi.sh
 
 ### Extract region masks from FS-space DKT atlas
 make_fs_rois.sh
