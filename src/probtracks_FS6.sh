@@ -40,7 +40,7 @@ for region in \
   FS_POSTPAR \
   FS_OCC \
   FS_TEMP \
-do
+; do
 	${trackcmd} FS_THALAMUS_L ${region}_L
 	${trackcmd} FS_THALAMUS_R ${region}_R
 done
