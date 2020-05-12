@@ -6,16 +6,14 @@
 ### MAKE COMBINED FS_MASKS
 ### MAKE AVOID MASKS
 
-#roi_dir=./TRACTOGRAPHY_WHOLE_THALAMUS/FS_2_FSL
-#roi_dir="${out_dir}/ROIS"
-roi_dir=testdir
+echo Running ${0}
 
 
 # Set up
 source functions.sh
-mri_convert "${fs_subject_dir}/mri/aparc.DKTatlas+aseg.mgz" "${roi_dir}/aparc.DKTatlas+aseg.nii.gz"
+cd "${rois_fs_dir}"
+mri_convert "${fs_subject_dir}/mri/aparc.DKTatlas+aseg.mgz" aparc.DKTatlas+aseg.nii.gz
 aparc_niigz=aparc.DKTatlas+aseg
-cd "${roi_dir}"
 
 
 # Create single-ROI masks for FS thalamus

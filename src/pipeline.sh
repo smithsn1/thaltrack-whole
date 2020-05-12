@@ -2,8 +2,14 @@
 #
 # Main pipeline
 
+echo Running ${0}
+
 # Initialize defaults (will be changed later if passed as options)
-default=""
+export project=NO_PROJ
+export subject=NO_SUBJ
+export session=NO_SESS
+#export src_dir=/opt/thaltrack_whole/src
+export src_dir=/repo/thaltrack_whole/src
 
 # Parse options
 while [[ $# -gt 0 ]]
@@ -16,29 +22,32 @@ do
         export subject="$2"; shift; shift ;;
     --session)
         export session="$2"; shift; shift ;;
-    --scan)
-        export scan="$2"; shift; shift ;;
     --fs_subject_dir)
         export fs_subject_dir="$2"; shift; shift ;;
     --fs_nii_thalamus_niigz)
         export fs_nii_thalamus_niigz="$2"; shift; shift ;;
+	--b0mean_niigz)
+        export b0mean_niigz="$2"; shift; shift ;;
     --out_dir)
         export out_dir="$2"; shift; shift ;;
+    --src_dir)
+        export src_dir="$2"; shift; shift ;;
     *)
         shift ;;
   esac
 done
 
+
 # Inputs report
-echo "${project} ${subject} ${session} ${scan}"
+echo "${project} ${subject} ${session}"
 echo "fs_subject_dir:          ${fs_subject_dir}"
 echo "fs_nii_thalamus_niigz:   ${fs_nii_thalamus_niigz}"
 echo "out_dir:                 ${out_dir}"
 
 
 # Dirs in the container we need to access
-export targets_dir=src/targets
-export yeo_dir=src/external/yeo_networks
+export targets_dir="${src_dir}"/targets
+export yeo_dir="${src_dir}"/external/yeo_networks
 
 
 # Output dirs

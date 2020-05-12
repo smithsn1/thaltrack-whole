@@ -2,6 +2,9 @@
 #
 ### TRACTOGRAPHY - FREESURFER THALAMUS TO FREESURFER CORTICAL MASKS
 
+echo Running ${0}
+
+
 # Probtrack function for single ROI
 function track () {
 	trackopts="${1}"
