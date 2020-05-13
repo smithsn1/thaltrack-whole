@@ -8,8 +8,8 @@ echo Running ${0}
 export project=NO_PROJ
 export subject=NO_SUBJ
 export session=NO_SESS
-#export src_dir=/opt/thaltrack_whole/src
-export src_dir=/repo/thaltrack_whole/src
+#export src_dir=/opt/thaltrack-whole/src
+export src_dir=/repo/thaltrack-whole/src
 
 # Parse options
 while [[ $# -gt 0 ]]

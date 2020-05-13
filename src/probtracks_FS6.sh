@@ -46,29 +46,29 @@ for region in \
 done
 
 
-# Set up for multiple targets
-cd "${out_dir}"/OUTPUTS_FS6
-cp "${targets_dir}"/TARGETS_FS6_?.txt .
+# Set up for multiple targets. We need to run from the ROI dir
+cp "${targets_dir}"/TARGETS_FS6_?.txt "${out_dir}"/OUTPUTS_FS6
+cd "${rois_dwi_dir}"
 
 # L thalamus to L multiple targets
 probtrackx2 \
 	-s "${bedpost_dir}"/merged \
 	-m "${bedpost_dir}"/nodif_brain_mask \
-	-x "${rois_dwi_dir}"/FS_THALAMUS_L \
-	--targetmasks=TARGETS_FS6_L.txt \
-	--stop="${rois_dwi_dir}"/FS_LHCORTEX_STOP \
-	--avoid="${rois_dwi_dir}"/FS_RH_AVOID \
-	--dir=FS_THALAMUS_L_to_TARGETS_L \
+	-x FS_THALAMUS_L \
+	--targetmasks="${out_dir}"/OUTPUTS_FS6/TARGETS_FS6_L.txt \
+	--stop=FS_LHCORTEX_STOP \
+	--avoid=FS_RH_AVOID \
+	--dir="${out_dir}"/OUTPUTS_FS6/FS_THALAMUS_L_to_TARGETS_L \
 	${trackopts}
 
 # R thalamus to R multiple targets
 probtrackx2 \
 	-s "${bedpost_dir}"/merged \
 	-m "${bedpost_dir}"/nodif_brain_mask \
-	-x "${rois_dwi_dir}"/FS_THALAMUS_R \
-	--targetmasks=TARGETS_FS6_R.txt \
-	--stop="${rois_dwi_dir}"/FS_RHCORTEX_STOP \
-	--avoid="${rois_dwi_dir}"/FS_LH_AVOID \
-	--dir=FS_THALAMUS_R_to_TARGETS_R \
+	-x FS_THALAMUS_R \
+	--targetmasks="${out_dir}"/OUTPUTS_FS6/TARGETS_FS6_R.txt \
+	--stop=FS_RHCORTEX_STOP \
+	--avoid=FS_LH_AVOID \
+	--dir="${out_dir}"/OUTPUTS_FS6/FS_THALAMUS_R_to_TARGETS_R \
 	${trackopts}
 
