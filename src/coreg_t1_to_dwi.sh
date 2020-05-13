@@ -21,6 +21,42 @@ epi_reg \
 	
 exit 0
 
+# CREATE FREESURFER TO B0 XFORM
+convert_xfm \
+	-omat norm_2_b0_mean.mat \
+	-inverse rdwi.mat
+
+
+# COREG FREESURFER NORM BRAIN TO B0
+flirt \
+	-in norm \
+	-ref b0_mean \
+	-out norm_2_b0_mean.nii.gz \
+	-applyxfm \
+	-init norm_2_b0_mean.mat \
+	-interp trilinear
+
+# COREG DKT ATLAS TO B0
+flirt \
+	-in aparc.DKTatlas+aseg.nii.gz \
+	-applyxfm \
+	-init norm_2_b0_mean.mat \
+	-out aparc.DKTatlas+aseg_2_b0_mean.nii.gz \
+	-paddingsize 0.0 \
+	-interp nearestneighbour \
+	-ref b0_mean
+	
+# COREG THALAMUS TO B0
+flirt \
+	-in ThalamicNuclei.v10.T1.FSvoxelSpace.nii.gz \
+	-applyxfm \
+	-init norm_2_b0_mean.mat \
+	-out ThalamicNuclei.v10.T1.FSvoxelSpace_2_b0_mean.nii.gz \
+	-paddingsize 0.0 \
+	-interp nearestneighbour \
+	-ref b0_mean
+
+
 
 
 # Alternate approach:
